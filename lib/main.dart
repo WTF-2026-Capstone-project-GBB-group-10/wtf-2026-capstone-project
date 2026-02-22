@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project_ggb/pages/basic_details_page.dart';
+import 'package:project_ggb/pages/enter_password_page.dart';
+import 'package:project_ggb/pages/forgot_password_page.dart';
 import 'package:project_ggb/pages/login_page.dart';
 import 'package:project_ggb/pages/onboarding_page.dart';
+import 'package:project_ggb/pages/otp_page.dart';
+import 'package:project_ggb/pages/set_password_page.dart';
+import 'package:project_ggb/pages/sucess_page.dart';
 import 'package:project_ggb/pages/welcome_page.dart';
 
 void main() {
@@ -24,9 +30,15 @@ class MyApp extends StatelessWidget {
       routes: {
         "/onboarding" : (context) => OnboardingPage(),
         "/welcome" : (context) => WelcomePage(),
-        "/login" : (context) => LoginPage()
+        "/login" : (context) => LoginPage(),
+        "/forgot" : (context) => ForgotPasswordPage(),
+        "/set": (context) => SetPasswordPage(),
+        "/otp": (context) => OtpPage(),
+        "/enterPassword" : (context) => EnterPasswordPage(),
+        "/basicDetails" : (context) => BasicDetailsPage(),
+        "/sucess" : (context) => SucessPage(),
       },
-      initialRoute: "/login",
+      //initialRoute: "/login",
       
     );
   }

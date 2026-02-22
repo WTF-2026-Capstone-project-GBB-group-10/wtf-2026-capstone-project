@@ -43,7 +43,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   width: 120,
                   height: 120,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 15),
                 // Text
                 const Text(
                   'Green Bloom Bank',
