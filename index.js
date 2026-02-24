@@ -4,14 +4,13 @@ const app = require('./app');
 const connectDB = require('./database/connectDb');
 const { PORT } = require('./config/env.config');
 
-// ================= START SERVER =================
 async function startServer() {
   try {
-    // Connect Database
+   
     await connectDB();
-    console.log('✅ Database connected successfully');
+    console.log(' Database connected successfully');
 
-    // Start Server
+  
     const server = app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
@@ -26,9 +25,9 @@ async function startServer() {
 }
 
 function shutdown(server) {
-  console.log('\n🛑 Shutting down server...');
+  console.log('Shutting down server...');
   server.close(() => {
-    console.log('💤 Server stopped');
+    console.log('Server stopped');
     process.exit(0);
   });
 }

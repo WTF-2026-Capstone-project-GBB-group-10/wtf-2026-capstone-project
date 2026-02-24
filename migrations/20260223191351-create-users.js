@@ -12,7 +12,7 @@ module.exports = {
       auth_id: {
         type: Sequelize.UUID,
         allowNull: false,
-        unique: true, // one-to-one
+        unique: true, 
         references: {
           model: 'Auth',
           key: 'id'

@@ -48,3 +48,6 @@ app.*.map.json
 node_modules
 .env
 >>>>>>> 8c0fac6 (Debugging)
+
+.env
+node_modules

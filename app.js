@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 
-// ✅ MUST BE BEFORE ROUTES
+
 app.use(express.json());
 
-// ROUTES
+
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
 const loanRoutes = require('./routes/loan.route');

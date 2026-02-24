@@ -1,10 +1,4 @@
-// utils/creditScore.js
 
-/**
- * Simple deterministic credit scoring (MVP)
- * Based on loan amount only
- * Matches your Week 2 requirements
- */
 
 function generateCreditScore(amount) {
   if (amount < 1000) return 80;
