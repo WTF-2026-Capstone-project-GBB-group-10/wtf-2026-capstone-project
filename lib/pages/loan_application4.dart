@@ -2,17 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_ggb/widgets/custom_button.dart';
 
-class SucessPage extends StatefulWidget {
-  const SucessPage({super.key});
+class LoanApplication4 extends StatefulWidget {
+  const LoanApplication4({super.key});
 
   @override
-  State<SucessPage> createState() => _SucessPageState();
+  State<LoanApplication4> createState() => _LoanApplication4State();
 }
 
-class _SucessPageState extends State<SucessPage> {
+class _LoanApplication4State extends State<LoanApplication4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed("/loan_app3");
+          },
+        ),
+        //backgroundColor: Colors.white,
+        //elevation: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -32,7 +42,7 @@ class _SucessPageState extends State<SucessPage> {
         
              SizedBox(height: 40),
         
-             Text("Congratulations! You have successfully created your Green Bloom Bank Account",
+             Text("Congratulations! You have successfully requested for a loan",
              style: TextStyle(color: Colors.grey, fontSize: 14)
              ),
         

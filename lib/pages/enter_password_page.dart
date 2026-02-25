@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_ggb/widgets/custom_button.dart';
+import 'package:project_ggb/widgets/password_textfield.dart';
 
 class EnterPasswordPage extends StatefulWidget {
   const EnterPasswordPage({super.key});
@@ -10,7 +11,15 @@ class EnterPasswordPage extends StatefulWidget {
 }
 
 class _EnterPasswordPageState extends State<EnterPasswordPage> {
-  bool _isPasswordVisible = false;
+
+  
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,32 +65,8 @@ class _EnterPasswordPageState extends State<EnterPasswordPage> {
                 ),
               ),
               SizedBox(height: 8),
-              TextField(
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  hintText: "Enter your password",
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                    icon: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
-                ),
-              ),
+              PasswordTextfield(label: "Enter your password",
+              textEditingController: passwordController),
         
               SizedBox(height: 8),
         
@@ -93,32 +78,9 @@ class _EnterPasswordPageState extends State<EnterPasswordPage> {
                 ),
               ),
               SizedBox(height: 8),
-              TextField(
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  hintText: "Confirm Password",
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                    icon: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
-                ),
-              ),
+              PasswordTextfield(label: "Confirm your password",
+              textEditingController: passwordController),
+
               SizedBox(height: 100),
         
               CustomButton(text: "Continue", onPressed: () {

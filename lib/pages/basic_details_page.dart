@@ -254,7 +254,7 @@ class _BasicDetailsPageState extends State<BasicDetailsPage> {
               icon: Icon(Icons.camera_alt),
                label: const Text("Open Camera & Take Photo"),
                style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
+                backgroundColor: Colors.greenAccent,
                 foregroundColor: Color(0xFF006400)
                ),
                ),
