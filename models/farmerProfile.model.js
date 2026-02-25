@@ -2,9 +2,9 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {}
+  class FarmerProfile extends Model {}
 
-  User.init(
+  FarmerProfile.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       role: {
-        type: DataTypes.ENUM('admin', 'user'),
-        defaultValue: 'user'
+        type: DataTypes.ENUM('admin', 'farmer'),
+        defaultValue: 'farmer'
       },
 
       phone: DataTypes.STRING,
@@ -52,12 +52,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'User',
-      tableName: 'Users',
+      modelName: 'FarmerProfile',
+      tableName: 'FarmerProfiles', 
       timestamps: true,
       underscored: true
     }
   );
 
-  return User;
+  return FarmerProfile;
 };

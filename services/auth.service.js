@@ -1,14 +1,21 @@
-const { Auth, User } = require('../models');
+const { Auth, FarmerProfile } = require('../models');
 const { hashPassword, comparePassword } = require('../utils/password.utils');
 const { generateToken } = require('../utils/jwt.utils');
 
-exports.register = async ({ email, password }) => {
+
+exports.signup = async ({ email, password }) => {
   const hashed = await hashPassword(password);
 
   const auth = await Auth.create({ email, password: hashed });
 
-  return { auth };
+  const farmer = await FarmerProfile.create({
+    auth_id: auth.id,
+    full_name: 'New Farmer'
+  });
+
+  return { auth, farmer };
 };
+
 
 
 exports.login = async ({ email, password }) => {

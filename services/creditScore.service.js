@@ -1,5 +1,5 @@
 const { CreditScore } = require('../models');
-const generateScore = require('../utils/creditScore.utlis');
+const generateScore = require('../utils/creditScore.utils')
 
 exports.generateScore = async (userId, loanAmount) => {
   const score = calculateScore(loanAmount);

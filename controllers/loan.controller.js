@@ -1,19 +1,26 @@
-const { Loan } = require('../models');
+const loanService = require('../services/loan.service');
 
-exports.createLoan = async (req, res) => {
-  try {
-    const loan = await Loan.create({ user_id: req.user.userId, ...req.body });
-    res.status(201).json(loan);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+
+exports.submitLoan = async (req, res) => {
+  const loan = await loanService.submitLoan(
+    req.params.id,
+    req.user.authId
+  );
+  res.json(loan);
 };
 
-exports.getMyLoans = async (req, res) => {
-  try {
-    const loans = await Loan.findAll({ where: { user_id: req.user.userId } });
-    res.json(loans);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+
+exports.approveLoan = async (req, res) => {
+  const loan = await loanService.approveLoan(req.params.id);
+  res.json(loan);
+};
+
+exports.rejectLoan = async (req, res) => {
+  const loan = await loanService.rejectLoan(req.params.id);
+  res.json(loan);
+};
+
+exports.disburseLoan = async (req, res) => {
+  const loan = await loanService.disburseLoan(req.params.id);
+  res.json(loan);
 };

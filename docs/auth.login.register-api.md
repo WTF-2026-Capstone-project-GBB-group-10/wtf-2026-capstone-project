@@ -1,4 +1,4 @@
-<!-- This document contains the authentication API documentation for the AgriFinTech platform.
+<!-- This document contains the authentication API documentation for the GBB.
 
 It allows frontend developers to:
 
@@ -14,7 +14,7 @@ http://localhost:5000/api/v1
 
 AUTHENTICATION
 
-POST /auth/register
+POST /api/v1/auth/signup
 
 HEADER
 Content-Type: application/json
@@ -28,7 +28,7 @@ REQUEST BODY
 
 LOGIN USER
 ENDPOINT 
-POST /auth/login
+POST /api/v1/auth/login
 
 {
   "email": "amina.yusuf@ggb.com",

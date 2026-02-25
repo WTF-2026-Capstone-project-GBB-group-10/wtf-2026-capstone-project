@@ -4,13 +4,13 @@ const validate = require('../middleware/validate');
 
 const { registerSchema, loginSchema } = require('../validators/validateData');
 
-// REGISTER
-router.post('/register', validate(registerSchema), async (req, res) => {
-  const result = await authService.register(req.validatedData);
+
+router.post('/signup', validate(registerSchema), async (req, res) => {
+  const result = await authService.signup(req.validatedData);
   res.status(201).json(result);
 });
 
-// LOGIN
+
 router.post('/login', validate(loginSchema), async (req, res) => {
   const result = await authService.login(req.validatedData);
   res.json(result);
