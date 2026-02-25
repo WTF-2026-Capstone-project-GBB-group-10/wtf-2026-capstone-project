@@ -1,10 +1,10 @@
 const { Loan } = require('../models');
-const calculateScore = require('../utils/creditScore.utils');
 
 
 exports.createLoan = async (userId, data) => {
   return Loan.create({
     user_id: userId,
+    status: 'draft',
     ...data
   });
 };
@@ -23,16 +23,16 @@ exports.submitLoan = async (loanId, userId) => {
     where: { id: loanId, user_id: userId }
   });
 
-  if (!loan) throw new Error('Loan not found');
+  if (!loan) {
+    throw new Error('Loan not found or not owned by user');
+  }
 
-  if (loan.status !== 'draft')
-    throw new Error('Only draft loans can be submitted');
-
-  const score = generateCreditScore(loan.loan_amount);
+  if (loan.status !== 'draft') {
+    throw new Error(`Only draft loans can be submitted. Current: ${loan.status}`);
+  }
 
   await loan.update({
     status: 'submitted',
-    credit_score: score,
     submitted_at: new Date()
   });
 
@@ -44,8 +44,9 @@ exports.approveLoan = async (loanId) => {
   const loan = await Loan.findByPk(loanId);
   if (!loan) throw new Error('Loan not found');
 
-  if (loan.status !== 'submitted')
-    throw new Error('Loan must be submitted first');
+  if (loan.status !== 'submitted') {
+    throw new Error('Only submitted loans can be approved');
+  }
 
   await loan.update({
     status: 'approved',
@@ -60,8 +61,9 @@ exports.rejectLoan = async (loanId) => {
   const loan = await Loan.findByPk(loanId);
   if (!loan) throw new Error('Loan not found');
 
-  if (loan.status !== 'submitted')
+  if (loan.status !== 'submitted') {
     throw new Error('Only submitted loans can be rejected');
+  }
 
   await loan.update({
     status: 'rejected'
@@ -75,8 +77,9 @@ exports.disburseLoan = async (loanId) => {
   const loan = await Loan.findByPk(loanId);
   if (!loan) throw new Error('Loan not found');
 
-  if (loan.status !== 'approved')
-    throw new Error('Loan must be approved first');
+  if (loan.status !== 'approved') {
+    throw new Error('Loan must be approved before disbursement');
+  }
 
   await loan.update({
     status: 'disbursed',

@@ -14,25 +14,25 @@ http://localhost:5000/api/v1
 
 AUTHENTICATION
 
-POST /api/v1/auth/signup
+POST http://localhost:5000/api/v1/auth/signup
 
 HEADER
 Content-Type: application/json
 
 REQUEST BODY
 {
-  "email": "amina.yusuf@ggb.com",
-  "password": "AminaSecure123!"
+  "email": "grace.njeri@ggb.com",
+  "password": "GraceSecure123!"
 }
 
 
 LOGIN USER
 ENDPOINT 
-POST /api/v1/auth/login
+POST http://localhost:5000/api/v1/auth/login
 
 {
-  "email": "amina.yusuf@ggb.com",
-  "password": "AminaSecure123!"
+  "email": "grace.njeri@ggb.com",
+  "password": "GraceSecure123!"
 }
 
 Success Response (200)
@@ -42,6 +42,19 @@ Success Response (200)
 Authorization: Bearer JWT_TOKEN
 Example
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+
+
+ONBOARDING DASHBOARD
+post: http://localhost:5000/api/v1/farmer/onboard
+
+
+LOAN APPLICATION
+
+GET: http://localhost:5000/api/v1/loans/my
+post: http://localhost:5000/api/v1/loans
+
+LOAN SUBMITTION
+POST: http://localhost:5000/api/v1/loans/ID/submit
 
 
 Other part will follow soon

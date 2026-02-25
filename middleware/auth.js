@@ -1,32 +1,39 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config/env.config');
+const { FarmerProfile } = require('../models');
 
-function authenticateMiddleware(req, res, next) {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader) {
-    return res.status(401).json({ error: 'Authorization header missing' });
-  }
-
-  const parts = authHeader.split(' ');
-
-  if (parts.length !== 2 || parts[0] !== 'Bearer') {
-    return res.status(401).json({ error: 'Invalid authorization format' });
-  }
-
-  const token = parts[1];
-
+module.exports = async (req, res, next) => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const header = req.headers.authorization;
 
-    req.user = decoded; 
+    if (!header) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const token = header.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Invalid token format' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  
+    req.user = {
+      authId: decoded.authId
+    };
+
+   
+    const farmer = await FarmerProfile.findOne({
+      where: { auth_id: decoded.authId }
+    });
+
+    if (farmer) {
+      req.user.farmerId = farmer.id;
+      req.user.role = farmer.role;
+    }
 
     next();
-  } catch (error) {
-    return res.status(401).json({
-      error: 'Invalid or expired token'
-    });
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({ message: 'Unauthorized' });
   }
-}
-
-module.exports = authenticateMiddleware;
+};

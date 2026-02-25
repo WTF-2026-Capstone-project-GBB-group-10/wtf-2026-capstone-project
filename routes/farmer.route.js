@@ -1,22 +1,20 @@
 const router = require('express').Router();
-const authMiddleware = require('../middleware/auth');
 const { FarmerProfile } = require('../models');
+const authMiddleware = require('../middleware/auth');
 
-router.put('/onboarding', authMiddleware, async (req, res) => {
-  const farmer = await FarmerProfile.findOne({
-    where: { auth_id: req.user.authId }
-  });
+router.post('/onboard', authMiddleware, async (req, res) => {
+  try {
+  const farmer = await FarmerProfile.create({
+  auth_id: req.user.authId,
+  role: 'farmer', // force role
+  ...req.body
+});
 
-  if (!farmer) {
-    return res.status(404).json({ error: 'Farmer not found' });
+    res.status(201).json(farmer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
-
-  await farmer.update(req.body);
-
-  res.json({
-    message: 'Farmer profile updated',
-    farmer
-  });
 });
 
 module.exports = router;
