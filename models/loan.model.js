@@ -60,6 +60,37 @@ module.exports = (sequelize, DataTypes) => {
       disbursement_date: DataTypes.DATE,
       due_date: DataTypes.DATE,
 
+
+      ai_prediction: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+
+      repay_probability: {
+        type: DataTypes.FLOAT,
+        allowNull: true
+      },
+
+      rule_score: {
+        type: DataTypes.FLOAT,
+        allowNull: true
+      },
+
+      risk_level: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+
+      ai_recommendation: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+
+      ai_action: {
+        type: DataTypes.ENUM('approve', 'review', 'decline'),
+        allowNull: true
+      },
+
       created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW

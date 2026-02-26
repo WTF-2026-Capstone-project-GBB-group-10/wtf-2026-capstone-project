@@ -16,12 +16,13 @@ module.exports = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  
+    // ✅ Add BOTH identities
     req.user = {
-      authId: decoded.authId
+      authId: decoded.authId,
+      userId: decoded.authId // alias for DB consistency
     };
 
-   
+    // Load farmer profile
     const farmer = await FarmerProfile.findOne({
       where: { auth_id: decoded.authId }
     });
