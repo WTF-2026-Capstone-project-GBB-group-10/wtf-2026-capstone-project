@@ -1,12 +1,11 @@
 const express = require('express');
-const app = express();
 
+const app = express();
 
 app.use(express.json());
 
-
 const authRoutes = require('./routes/auth.route');
-const farmerRoutes = require('./routes/farmer.route');
+const profileRoutes = require('./routes/farmer.route');
 
 const loanRoutes = require('./routes/loan.route');
 const listingRoutes = require('./routes/listing.route');
@@ -16,15 +15,31 @@ const creditScoreRoutes = require('./routes/creditScore.route');
 
 
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/farmer', farmerRoutes);
+app.use('/api/v1/profile', profileRoutes);
+
 app.use('/api/v1/loans', loanRoutes);
 app.use('/api/v1/listings', listingRoutes);
 app.use('/api/v1/messages', messageRoutes);
 app.use('/api/v1/repayments', repaymentRoutes);
-app.use('/api/v1/creditscores', creditScoreRoutes);
+app.use('/api/v1/credit-scores', creditScoreRoutes);
 
 app.get('/', (req, res) => {
-  res.send(' GBB AgriFinTech API Running');
+  res.json({
+    message: 'GBB AgriFinTech API Running'
+  });
 });
+
+app.use((err, req, res, next) => {
+
+  console.error(err);
+
+  res.status(err.statusCode || 500).json({
+    status: err.status || 'error',
+    message: err.message || 'Internal Server Error',
+    details: err.details || null
+  });
+
+});
+
 
 module.exports = app;

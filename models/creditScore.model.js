@@ -12,29 +12,38 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4
       },
 
-      user_id: {
+      farmer_profile_id: {
         type: DataTypes.UUID,
         allowNull: false
       },
 
-      score_value: DataTypes.FLOAT,
+      score_value: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
 
       risk_level: {
         type: DataTypes.ENUM('low', 'medium', 'high')
       },
 
-      satellite_score: DataTypes.FLOAT,
-      climate_risk_score: DataTypes.FLOAT,
-      mobile_money_score: DataTypes.FLOAT,
+      satellite_score: {
+        type: DataTypes.FLOAT
+      },
 
-      generated_at: DataTypes.DATE
+      climate_risk_score: {
+        type: DataTypes.FLOAT
+      },
+
+      mobile_money_score: {
+        type: DataTypes.FLOAT
+      }
     },
     {
       sequelize,
       modelName: 'CreditScore',
       tableName: 'CreditScores',
       timestamps: true,
-      underscored: false
+      underscored: true
     }
   );
 

@@ -1,87 +1,130 @@
 const { Auth, FarmerProfile } = require('../models');
 const { hashPassword, comparePassword } = require('../utils/password.utils');
 const { generateToken } = require('../utils/jwt.utils');
+const { BadRequestError, UnauthorizedError, NotFoundError } = require('../errors/httpError');
 
-// exports.signup = async ({ email, password }) => {
 
-//   const existing = await Auth.findOne({ where: { email } });
-//   if (existing) {
-//     throw new Error('Email already registered');
-//   }
+exports.signup = async ({ email }) => {
 
-//   const hashed = await hashPassword(password);
+  const existing = await Auth.findOne({ where: { email } });
 
-//   const auth = await Auth.create({
-//     email,
-//     password: hashed
-//   });
+  if (existing) {
+    throw new BadRequestError('Email already registered');
+  }
 
-//   const profile = await FarmerProfile.findOne({
-//   where: { auth_id: auth.id }
-// });
+  const token = Math.floor(100000 + Math.random() * 900000).toString();
 
-// const token = generateToken({
-//   authId: auth.id,
-//   role: profile?.role || 'farmer'
-// });
-// };
+  await Auth.create({
+    email,
+    verification_token: token,
+    verification_token_expires: Date.now() + 10 * 60 * 1000
+  });
 
-exports.signup = async ({ email, password }) => {
+  return {
+    message: "Verification token sent",
+    token 
+  };
+};
+
+
+
+exports.verifyToken = async ({ email, token }) => {
+
+  const auth = await Auth.findOne({ where: { email } });
+
+  if (!auth) {
+    throw new NotFoundError("Account not found");
+  }
+
+  if (auth.verification_token !== token) {
+    throw new BadRequestError("Invalid token");
+  }
+
+  return { message: "Token verified" };
+};
+
+
+exports.enterPassword = async ({ email, password, confirmPassword }) => {
+
+  if (password !== confirmPassword) {
+    throw new BadRequestError("Passwords do not match");
+  }
+
+  const auth = await Auth.findOne({ where: { email } });
 
   const hashed = await hashPassword(password);
 
-  const auth = await Auth.create({
+  await auth.update({
+    password: hashed,
+    verification_token: null
+  });
+
+  return { message: "Password created successfully" };
+};
+
+
+
+exports.basicDetails = async (data) => {
+
+  const {
     email,
-    password: hashed
-  });
+    firstName,
+    lastName,
+    gender,
+    country,
+    city,
+    role
+  } = data;
 
-  const farmer = await FarmerProfile.create({
+  const auth = await Auth.findOne({ where: { email } });
+
+  if (!auth) {
+    throw new NotFoundError("Account not found");
+  }
+
+  const profile = await FarmerProfile.create({
     auth_id: auth.id,
-    full_name: 'New Farmer',
-    role: 'farmer'
+    first_name: firstName,
+    last_name: lastName,
+    gender,
+    country,
+    city,
+    role
   });
 
-  const token = generateToken({ authId: auth.id });
-
-  return { token, farmer };
+  return profile;
 };
 
 
 exports.login = async ({ email, password }) => {
+
   const auth = await Auth.findOne({ where: { email } });
 
   if (!auth) {
-    throw new Error('Invalid credentials');
-      console.log('DB HASH:', auth.password); // 👈 ADD THIS
+    throw new UnauthorizedError("Invalid credentials");
   }
 
   const valid = await comparePassword(password, auth.password);
 
   if (!valid) {
-    throw new Error('Invalid credentials');
+    throw new UnauthorizedError("Invalid credentials");
   }
 
-  const token = generateToken({ authId: auth.id });
+  const profile = await FarmerProfile.findOne({
+    where: { auth_id: auth.id }
+  });
 
-  return { token, auth };
-};
-
-
-
-exports.login = async ({ email, password }) => {
-  const auth = await Auth.findOne({ where: { email } });
-  if (!auth) throw new Error('Invalid credentials');
-
-  const valid = await comparePassword(password, auth.password);
-  if (!valid) throw new Error('Invalid credentials');
-
-  const token = generateToken({ authId: auth.id });
+  const token = generateToken({
+    authId: auth.id,
+    role: profile?.role || "farmer"
+  });
 
   return {
     token,
     user: {
       id: auth.id,
       email: auth.email
-    }
+    },
+    profile
   };
 };

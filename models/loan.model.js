@@ -18,6 +18,67 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
+      age: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+
+      education_level: {
+        type: DataTypes.INTEGER,   
+        allowNull: false
+      },
+
+      years_farming: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+
+      farm_size: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      crop_type: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+
+      irrigation_access: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
+
+      market_distance_km: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      annual_income: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      savings: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      mobile_money: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
+
+      coop_member: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
+
+      previous_repayment: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
+
+      // 🔹 EXISTING LOAN FIELDS
       loan_amount: {
         type: DataTypes.FLOAT,
         allowNull: false
@@ -60,7 +121,6 @@ module.exports = (sequelize, DataTypes) => {
       disbursement_date: DataTypes.DATE,
       due_date: DataTypes.DATE,
 
-
       ai_prediction: {
         type: DataTypes.STRING,
         allowNull: true
@@ -100,7 +160,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Loan',
       tableName: 'Loans',
-      timestamps: false,
+      timestamps: true,
       underscored: true
     }
   );

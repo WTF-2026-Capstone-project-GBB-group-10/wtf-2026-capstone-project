@@ -1,11 +1,21 @@
-const { FarmerProfile } = require('../models');
+const { Auth } = require('../models');
 
-async function createProfile(data) {
-  return await FarmerProfile.create(data);
+async function registerUser(data) {
+  return await Auth.create(data);
 }
 
-async function getByUserId(user_id) {
-  return await FarmerProfile.findOne({ where: { user_id } });
+async function getUserByEmail(email) {
+  return await Auth.findOne({
+    where: { email }
+  });
 }
 
-module.exports = { createProfile, getByUserId };
+async function getUserById(id) {
+  return await Auth.findByPk(id);
+}
+
+module.exports = {
+  registerUser,
+  getUserByEmail,
+  getUserById
+};

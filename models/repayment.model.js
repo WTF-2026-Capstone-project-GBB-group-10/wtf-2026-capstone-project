@@ -2,17 +2,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Repayment extends Model {
-    static associate(models) {
-      // 🔗 Each repayment belongs to a loan
-      Repayment.belongsTo(models.Loan, {
-        foreignKey: 'loan_id',
-        as: 'loan',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      });
-    }
-  }
+  class Repayment extends Model {}
 
   Repayment.init(
     {
@@ -27,16 +17,25 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      amount_paid: DataTypes.FLOAT,
-      payment_method: DataTypes.STRING,
-      payment_date: DataTypes.DATE
+      amount_paid: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      payment_method: {
+        type: DataTypes.STRING
+      },
+
+      payment_date: {
+        type: DataTypes.DATE
+      }
     },
     {
       sequelize,
       modelName: 'Repayment',
       tableName: 'Repayments',
-      timestamps: true,      // ✅ because createdAt exists
-      underscored: false     // ✅ because camelCase timestamps
+      timestamps: true,
+      underscored: true
     }
   );
 

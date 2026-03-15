@@ -3,27 +3,46 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Auth', {
+
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4
       },
 
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+          isEmail: true
+        }
       },
 
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
 
-      is_verified: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+      verification_token: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      verification_token_expires: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+
+      reset_token: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      reset_token_expires: {
+        type: Sequelize.DATE,
+        allowNull: true
       },
 
       created_at: {
@@ -37,6 +56,7 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.NOW
       }
+
     });
   },
 

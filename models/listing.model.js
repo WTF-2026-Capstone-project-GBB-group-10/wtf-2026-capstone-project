@@ -17,17 +17,31 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      crop_type: DataTypes.STRING,
-      quantity: DataTypes.FLOAT,
-      price: DataTypes.FLOAT,
-      location: DataTypes.STRING
+      crop_type: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+
+      quantity: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+      },
+
+      location: {
+        type: DataTypes.STRING
+      }
     },
     {
       sequelize,
       modelName: 'Listing',
       tableName: 'Listings',
       timestamps: true,
-      underscored: false
+      underscored: true
     }
   );
 

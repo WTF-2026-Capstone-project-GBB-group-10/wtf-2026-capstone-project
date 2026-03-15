@@ -12,11 +12,25 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4
       },
 
-      sender_id: DataTypes.UUID,
-      receiver_id: DataTypes.UUID,
-      listing_id: DataTypes.UUID,
+      sender_id: {
+        type: DataTypes.UUID,
+        allowNull: false
+      },
 
-      message_text: DataTypes.TEXT,
+      receiver_id: {
+        type: DataTypes.UUID,
+        allowNull: false
+      },
+
+      listing_id: {
+        type: DataTypes.UUID,
+        allowNull: true
+      },
+
+      message_text: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
 
       read_status: {
         type: DataTypes.BOOLEAN,
@@ -26,9 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Message',
-      tableName: 'Messages',
+      tableName: 'Message',
       timestamps: true,
-      underscored: false
+      underscored: true
     }
   );
 

@@ -6,32 +6,64 @@ module.exports = {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false
       },
 
       sender_id: {
         type: Sequelize.UUID,
-        references: { model: 'Users', key: 'id' }
+        allowNull: false,
+        references: {
+          model: 'FarmerProfiles',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
 
       receiver_id: {
         type: Sequelize.UUID,
-        references: { model: 'Users', key: 'id' }
+        allowNull: false,
+        references: {
+          model: 'FarmerProfiles',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
 
       listing_id: {
         type: Sequelize.UUID,
-        references: { model: 'Listings', key: 'id' }
+        allowNull: true,
+        references: {
+          model: 'Listings',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
 
-      message_text: Sequelize.TEXT,
+      message_text: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+
       read_status: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
 
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      }
     });
   },
 

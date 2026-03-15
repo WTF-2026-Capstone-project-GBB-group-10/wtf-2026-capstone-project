@@ -10,21 +10,28 @@ module.exports = async (req, res, next) => {
     }
 
     const token = header.split(' ')[1];
+
     if (!token) {
       return res.status(401).json({ message: 'Invalid token format' });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // ✅ Add BOTH identities
+  
+    const authId = decoded.authId || decoded.id;
+
+    if (!authId) {
+      return res.status(401).json({ message: 'Invalid token payload' });
+    }
+
     req.user = {
-      authId: decoded.authId,
-      userId: decoded.authId // alias for DB consistency
+      authId,
+      userId: authId
     };
 
-    // Load farmer profile
+   
     const farmer = await FarmerProfile.findOne({
-      where: { auth_id: decoded.authId }
+      where: { auth_id: authId }
     });
 
     if (farmer) {
@@ -33,8 +40,9 @@ module.exports = async (req, res, next) => {
     }
 
     next();
+
   } catch (err) {
     console.error(err);
-    res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 };

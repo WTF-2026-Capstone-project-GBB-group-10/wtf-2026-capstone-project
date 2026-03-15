@@ -36,7 +36,6 @@ class InternalServerError extends AppError {
   }
 }
 
-
 module.exports = {
   BadRequestError,
   UnauthorizedError,

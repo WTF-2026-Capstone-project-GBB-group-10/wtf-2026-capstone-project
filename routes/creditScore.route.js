@@ -1,17 +1,45 @@
 const router = require('express').Router();
-const creditScoreService = require('../services/creditScore.service');
-const auth = require('../middleware/validate');
 
-// Get my credit score
-router.get('/me', auth, async (req, res) => {
-  const score = await creditScoreService.getByUser(req.user.id);
-  res.json(score);
+const creditScoreService = require('../services/creditScore.service');
+const authMiddleware = require('../middleware/auth');
+
+
+router.get('/me', authMiddleware, async (req, res) => {
+  try {
+
+    const score = await creditScoreService.getByFarmerProfile(req.user.profileId);
+
+    return res.json({
+      status: "success",
+      score
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      status: "error",
+      message: err.message
+    });
+  }
 });
 
-// Generate credit score (admin or internal use)
-router.post('/generate/:userId', async (req, res) => {
-  const score = await creditScoreService.generate(req.params.userId);
-  res.status(201).json(score);
+router.post('/generate/:profileId', async (req, res) => {
+  try {
+
+    const score = await creditScoreService.generateScore(
+      req.params.profileId
+    );
+
+    return res.status(201).json({
+      status: "success",
+      score
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      status: "error",
+      message: err.message
+    });
+  }
 });
 
 module.exports = router;

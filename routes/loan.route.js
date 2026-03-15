@@ -6,14 +6,14 @@ const validate = require('../middleware/validate');
 const { createLoanSchema } = require('../validators/validateData');
 
 
-// CREATE LOAN
+
 router.post(
   '/',
   authMiddleware,
   validate(createLoanSchema),
   async (req, res) => {
     const loan = await loanService.createLoan(
-      req.user.authId, // ✅ CORRECT
+      req.user.authId, 
       req.validatedData
     );
     res.status(201).json(loan);
@@ -21,24 +21,24 @@ router.post(
 );
 
 
-// GET MY LOANS
+
 router.get('/my', authMiddleware, async (req, res) => {
-  const loans = await loanService.getUserLoans(req.user.authId); // ✅ FIXED
+  const loans = await loanService.getUserLoans(req.user.authId); 
   res.json(loans);
 });
 
 
-// SUBMIT LOAN
+
 router.post('/:id/submit', authMiddleware, async (req, res) => {
   const loan = await loanService.submitLoan(
     req.params.id,
-    req.user.authId // ✅ FIXED
+    req.user.authId 
   );
   res.json(loan);
 });
 
 
-// ADMIN ACTIONS
+
 router.post('/:id/approve', authMiddleware, admin, async (req, res) => {
   const loan = await loanService.approveLoan(req.params.id);
   res.json(loan);

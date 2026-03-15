@@ -1,22 +1,38 @@
-const { User } = require('../models');
+const { FarmerProfile } = require('../models');
+const { NotFoundError } = require('../errors/httpError');
+
 
 exports.getProfile = async (authId) => {
-  return await User.findOne({ where: { auth_id: authId } });
+
+  const profile = await FarmerProfile.findOne({
+    where: { auth_id: authId }
+  });
+
+  if (!profile) {
+    throw new NotFoundError('Farmer profile not found');
+  }
+
+  return profile;
 };
 
+
 exports.updateProfile = async (authId, data) => {
-  let user = await User.findOne({ where: { auth_id: authId } });
 
+  let profile = await FarmerProfile.findOne({
+    where: { auth_id: authId }
+  });
 
-  if (!user) {
-    user = await User.create({
+  if (!profile) {
+
+    profile = await FarmerProfile.create({
       auth_id: authId,
       ...data
     });
-    return user;
+
+    return profile;
   }
 
+  await profile.update(data);
 
-  await user.update(data);
-  return user;
+  return profile;
 };

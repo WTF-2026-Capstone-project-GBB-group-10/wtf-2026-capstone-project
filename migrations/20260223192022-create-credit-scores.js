@@ -6,24 +6,53 @@ module.exports = {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false
       },
 
-      user_id: {
+      farmer_profile_id: {
         type: Sequelize.UUID,
-        references: { model: 'Users', key: 'id' }
+        allowNull: false,
+        references: {
+          model: 'FarmerProfiles',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
 
-      score_value: Sequelize.FLOAT,
-      risk_level: Sequelize.ENUM('low','medium','high'),
+      score_value: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
 
-      satellite_score: Sequelize.FLOAT,
-      climate_risk_score: Sequelize.FLOAT,
-      mobile_money_score: Sequelize.FLOAT,
-      generated_at: Sequelize.DATE,
+      risk_level: {
+        type: Sequelize.ENUM('low','medium','high')
+      },
 
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE
+      satellite_score: {
+        type: Sequelize.FLOAT
+      },
+
+      climate_risk_score: {
+        type: Sequelize.FLOAT
+      },
+
+      mobile_money_score: {
+        type: Sequelize.FLOAT
+      },
+
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      }
     });
   },
 
@@ -31,4 +60,3 @@ module.exports = {
     await queryInterface.dropTable('CreditScores');
   }
 };
-

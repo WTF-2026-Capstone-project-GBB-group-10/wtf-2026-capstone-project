@@ -6,20 +6,45 @@ module.exports = {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false
       },
 
       loan_id: {
         type: Sequelize.UUID,
-        references: { model: 'Loans', key: 'id' }
+        allowNull: false,
+        references: {
+          model: 'Loans',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
 
-      amount_paid: Sequelize.FLOAT,
-      payment_method: Sequelize.STRING,
-      payment_date: Sequelize.DATE,
+      amount_paid: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
 
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE
+      payment_method: {
+        type: Sequelize.STRING
+      },
+
+      payment_date: {
+        type: Sequelize.DATE
+      },
+
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      }
     });
   },
 
@@ -27,4 +52,3 @@ module.exports = {
     await queryInterface.dropTable('Repayments');
   }
 };
-
